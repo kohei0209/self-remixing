@@ -365,7 +365,8 @@ def train(args):
     # initialize wandb logger
     if config["use_wandb"]:
         # config is also saved in Wandb
-        wandb.init(config=config, entity="kohei0209", **config["wandb"])
+        # TODO: change entity name!
+        wandb.init(config=config, entity="user name", **config["wandb"])
 
     # Finally, training loop
     for epoch in range(start_epoch, config["max_epoch"] + 1):
