@@ -1,0 +1,9 @@
+model: Shinji Watanabe/librispeech_asr_train_asr_transformer_e18_raw_bpe_sp_valid.acc.best
+params:
+  maxlenratio: 0.0
+  minlenratio: 0.0
+  beam_size: 20
+  ctc_weight: 0.3
+  lm_weight: 0.7
+  penalty: 0.0
+  nbest: 1

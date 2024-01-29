@@ -1,0 +1,104 @@
+name: &name selfremixing_conformer_snr_cbs+cs
+
+max_epoch: &max_epoch 400
+batch_size: 16
+batch_size_valid: 4
+seed: 0
+max_grad_norm: 5
+
+keep_nbest_models: 10
+best_model_criterion: [student_msi, max]
+save_checkpoint_interval: 50
+
+algo: selfremixing
+algo_conf:
+  selfremixing_loss_weight: 1.0
+  remixit_loss_weight: 0.0
+  nsrc_to_remix: 4
+  constrained_batch_shuffle: true
+  channel_shuffle: true
+  solver_mixconsis: false
+  shuffler_mixconsis: true
+  normalize: false
+teacher_update:
+  update_timing: epoch
+  weight: 0.8
+
+loss: snr
+loss_conf:
+  snr_max: 30
+  solve_perm: true
+  only_denominator: false
+  threshold_with: reference
+
+# dataset-related
+dataset: fuss
+dataset_conf:
+  num_train_data: null
+  num_valid_data: null
+  params:
+    normalization: true
+workers: 8
+
+# now we only support stft
+frontend: stft
+frontend_conf:
+  n_fft: &n_fft 512
+  win_length: 400
+  hop_length: 160
+  window: hann
+
+# separator conf
+separator: ConformerSeparator
+separator_conf:
+  input_dim: 257
+  num_spk: 4
+  predict_noise: false # total 4 masks
+  adim: 256
+  aheads: 4
+  layers: 16
+  linear_units: 1024
+  positionwise_layer_type: linear
+  positionwise_conv_kernel_size: 1
+  normalize_before: true
+  dropout_rate: 0.0
+  input_layer: linear
+  positional_dropout_rate: 0.0
+  attention_dropout_rate: 0.0
+  nonlinear: sigmoid
+  conformer_pos_enc_layer_type: rel_pos
+  conformer_self_attn_layer_type: rel_selfattn
+  conformer_activation_type: swish
+  use_macaron_style_in_conformer: true
+  use_cnn_in_conformer: true
+  conformer_enc_kernel_size: 33
+  n_groups: 8
+
+# optimizer conf
+optimizer: adamw
+optimizer_conf:
+  lr: &lr 2.0e-04
+  weight_decay: 1.0e-02
+  eps: 1.e-08
+
+# scheduler conf
+scheduler: warmup
+scheduler_conf:
+  mode: steplr
+  lr: *lr
+  patience: 3
+  factor: 0.98
+  warmup_steps: 5000
+  min_lr: 2.0e-05
+  decay_start_epoch: 100
+
+# wandb conf
+use_wandb: false
+wandb:
+  project: selfremixing
+  name: *name
+
+# mixed precision
+amp_params:
+  enabled: false
+  init_scale: 1280

@@ -1,0 +1,17 @@
+name: libricss_eval
+channels: 
+  - pytorch
+  - conda-forge
+dependencies:
+  - python=3.8.5
+  - pytorch
+  - torchaudio
+  - numpy
+  - scipy
+  - ipython
+  - sox
+  - pip
+  - tqdm
+  - pip:
+    - SoundFile
+    - espnet_model_zoo

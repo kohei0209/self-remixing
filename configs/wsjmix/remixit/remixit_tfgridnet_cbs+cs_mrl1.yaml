@@ -1,0 +1,110 @@
+name: &name remixit_tfgridnet_cbs+cs_mrl1
+
+max_epoch: 400
+batch_size: 8
+batch_size_valid: 4
+seed: 0
+max_grad_norm: 5
+
+keep_nbest_models: 10
+best_model_criterion: [sisdr, max]
+save_checkpoint_interval: 50
+
+algo: remixit
+algo_conf:
+  nsrc_to_remix: 3
+  constrained_batch_shuffle: true
+  channel_shuffle: true
+  student_mixconsis: false
+  teacher_mixconsis: true
+  normalize: false
+teacher_update:
+  update_timing: epoch
+  weight: 0.8
+
+loss: mrl1
+loss_conf:
+  stft_params:
+    - n_fft: 512
+      win_length: 400
+      hop_length: 160
+      window: hann
+    - n_fft: 1024
+      win_length: 800
+      hop_length: 320
+      window: hann
+    - n_fft: 2048
+      win_length: 1600
+      hop_length: 640
+      window: hann
+  solve_perm: true
+  snr_max: 30
+  logarithm: false
+  threshold_with: reference
+  only_denominator: false
+
+# dataset-related
+dataset: wsjmix
+dataset_conf:
+  num_train_data: null
+  num_valid_data: null
+  params:
+    audio_len: 7
+    ref_is_reverb: true
+    return_noise: false
+    allow_non_overlap: true
+    sample_rate: 8000
+    normalization: true
+workers: 8
+
+# now we only support stft
+frontend: stft
+frontend_conf:
+  n_fft: &n_fft 512
+  win_length: 400
+  hop_length: 160
+  window: hann
+
+# separator conf
+separator: TFGridNetV2
+separator_conf:
+  input_dim: null
+  n_srcs: 3
+  n_fft: *n_fft
+  n_layers: 4
+  lstm_hidden_units: 96
+  attn_n_head: 4
+  attn_approx_qk_dim: 256
+  emb_dim: 48
+  emb_ks: 4
+  emb_hs: 4
+  eps: 1.0e-5
+
+# optimizer conf
+optimizer: adamw
+optimizer_conf:
+  lr: &lr 1.0e-03
+  weight_decay: 1.0e-02
+  eps: 1.e-08
+
+# scheduler conf
+scheduler: warmup
+scheduler_conf:
+  mode: steplr
+  lr: *lr
+  patience: 2
+  factor: 0.98
+  warmup_steps: 5000
+  min_lr: 2.0e-05
+  decay_start_epoch: 100
+
+# wandb conf
+use_wandb: true
+wandb:
+  project: selfremixing
+  name: *name
+
+# mixed precision
+amp_params:
+  enabled: false
+  init_scale: 1280

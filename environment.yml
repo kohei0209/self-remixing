@@ -1,0 +1,22 @@
+name: selfremixing
+channels:
+  - pytorch
+  - conda-forge
+dependencies:
+  - python=3.10.8
+  - pytorch=1.12.1
+  - torchaudio
+  - numpy
+  - scipy
+  - pandas
+  - ipython
+  - sox
+  - wandb
+  - pip
+  - tqdm
+  - pip:
+      - pysoundfile
+      - pystoi
+      - fast_bss_eval
+      - transformers
+      - librosa
