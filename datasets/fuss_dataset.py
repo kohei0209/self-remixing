@@ -1,6 +1,8 @@
 """
 Copied from Asteroid toolkit and modified for our use.
-https://github.com/asteroid-team/asteroid/blob/master/asteroid/data/fuss_dataset.py
+
+References
+    https://github.com/asteroid-team/asteroid/blob/master/asteroid/data/fuss_dataset.py
 """
 
 from pathlib import Path
@@ -75,13 +77,6 @@ class FUSSDataset(Dataset):
         return len(self.mix_df)
 
     def __getitem__(self, idx):
-        """
-        03/03/2023
-        The training was conducted using mixtures made by summing up sources.
-        i.e., mix = sources.sum(dim=-2)
-
-        We conduct test using raw mixtures loaded by audio file for fair evaluation.
-        """
         # Each line has absolute to miture, background and foregrounds
         line = self.mix_df.iloc[idx]
         if self.stage == "test":

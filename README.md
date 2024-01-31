@@ -67,7 +67,9 @@ This repository includes the code from [ESPnet](https://github.com/espnet/espnet
 - ```models/conformer.py``` from ESPnet
 - ```my_torch_utils/stft.py``` from ESPnet
 - ```losses/mixit_wrapper.py``` from Asteroid
-
+- ```losses/pit_wrapper.py``` from Asteroid
+- ```datasets/fuss_dataset.py``` from Asteroid
+- ```datasets/librimix_dataset.py``` from Asteroid
 
 # Citations
 ```

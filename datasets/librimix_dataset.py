@@ -1,6 +1,8 @@
 """
 Copied from Asteroid toolkit and modified for our use.
-https://github.com/asteroid-team/asteroid/blob/master/asteroid/data/librimix_dataset.py
+
+References
+    https://github.com/asteroid-team/asteroid/blob/master/asteroid/data/librimix_dataset.py
 """
 
 
@@ -18,9 +20,7 @@ from torch.utils.data import DataLoader, Dataset
 
 from .whamr_dataset import wham_noise_license
 
-MINI_URL = (
-    "https://zenodo.org/record/3871592/files/MiniLibriMix.zip?download=1"
-)
+MINI_URL = "https://zenodo.org/record/3871592/files/MiniLibriMix.zip?download=1"
 
 
 class LibriMixDataset(Dataset):
@@ -140,9 +140,7 @@ class LibriMixDataset(Dataset):
         # If task is enh_both then the source is the clean mixture
         if "enh_both" in self.task:
             mix_clean_path = self.df_clean.iloc[idx]["mixture_path"]
-            s, _ = sf.read(
-                mix_clean_path, dtype="float32", start=start, stop=stop
-            )
+            s, _ = sf.read(mix_clean_path, dtype="float32", start=start, stop=stop)
             sources_list.append(s)
 
         else:
@@ -151,15 +149,11 @@ class LibriMixDataset(Dataset):
             for i in range(self.n_src):
                 source_path = row[f"source_{i + 1}_path"]
                 source_paths.append(source_path)
-                s, _ = sf.read(
-                    source_path, dtype="float32", start=start, stop=stop
-                )
+                s, _ = sf.read(source_path, dtype="float32", start=start, stop=stop)
                 sources_list.append(s)
 
         # Read the mixture
-        mixture, _ = sf.read(
-            mixture_path, dtype="float32", start=start, stop=stop
-        )
+        mixture, _ = sf.read(mixture_path, dtype="float32", start=start, stop=stop)
         # Convert to torch tensor
         mixture = torch.from_numpy(mixture)
         # Stack sources
@@ -217,9 +211,7 @@ class LibriMixDataset(Dataset):
             >>> )
         """
         train_set, val_set = cls.mini_from_download(**kwargs)
-        train_loader = DataLoader(
-            train_set, batch_size=batch_size, drop_last=True
-        )
+        train_loader = DataLoader(train_set, batch_size=batch_size, drop_last=True)
         val_loader = DataLoader(val_set, batch_size=batch_size, drop_last=True)
         return train_loader, val_loader
 
@@ -243,9 +235,7 @@ class LibriMixDataset(Dataset):
             >>> train_set, val_set = LibriMix.mini_from_download(task='sep_clean')
         """
         # kwargs checks
-        assert (
-            "csv_dir" not in kwargs
-        ), "Cannot specify csv_dir when downloading."
+        assert "csv_dir" not in kwargs, "Cannot specify csv_dir when downloading."
         assert kwargs.get("task", "sep_clean") in [
             "sep_clean",
             "sep_noisy",
@@ -256,12 +246,8 @@ class LibriMixDataset(Dataset):
         # Download LibriMix in current directory
         meta_path = cls.mini_download()
         # Create dataset instances
-        train_set = cls(
-            os.path.join(meta_path, "train"), sample_rate=8000, **kwargs
-        )
-        val_set = cls(
-            os.path.join(meta_path, "val"), sample_rate=8000, **kwargs
-        )
+        train_set = cls(os.path.join(meta_path, "train"), sample_rate=8000, **kwargs)
+        val_set = cls(os.path.join(meta_path, "val"), sample_rate=8000, **kwargs)
         return train_set, val_set
 
     @staticmethod
@@ -279,10 +265,7 @@ class LibriMixDataset(Dataset):
             hub.download_url_to_file(MINI_URL, zip_path)
         # Unzip zip
         cond = all(
-            [
-                os.path.isdir("MiniLibriMix/" + f)
-                for f in ["train", "val", "metadata"]
-            ]
+            [os.path.isdir("MiniLibriMix/" + f) for f in ["train", "val", "metadata"]]
         )
         if not cond:
             with zipfile.ZipFile(zip_path, "r") as zip_ref:
