@@ -72,7 +72,7 @@ def test(args):
     output_dir = args.model_dir / "enhanced"
     # output_dir = output_dir / 'mixture'
 
-    if config["dataset"] == "wsjmix":
+    if config["dataset"] in ["wsjmix", "smswsj"]:
         stage_name = wsjmix_stages[args.stage]
         test_dataset.return_paths = True
         test_dataset.return_noise = False
@@ -126,12 +126,7 @@ def test(args):
     f = open(eval_output_dir / "results.txt", "w")
 
     for i, data in enumerate(test_loader):
-        if "wsjmix" in config["dataset"]:
-            mix, ref, ids, kaldi_trans = data
-        elif config["dataset"] == "libri2mix":
-            mix, ref, ids = data
-        elif config["dataset"] == "whamr":
-            mix, ref = data
+        mix, ref, ids, kaldi_trans = data
         mix, ref = mix.to(device), ref.to(device)
 
         with torch.no_grad():
@@ -174,7 +169,7 @@ def test(args):
         assert y.shape == ref.shape
 
         # save wavs
-        if "wsjmix" in config["dataset"]:
+        if config["dataset"] in ["wsjmix", "smswsj"]:
             mix_path, ref1_path, ref2_path = ids
             json_id = Path(mix_path[0]).name
             json_id1, json_id2 = (
@@ -183,19 +178,6 @@ def test(args):
             )
             y1_output_path_8k = wav8k_output_dir / json_id1
             y2_output_path_8k = wav8k_output_dir / json_id2
-
-        elif config["dataset"] == "libri2mix":
-            id = ids[0][0] + "_" + ids[1][0]
-            json_id = i
-            json_id1, json_id2 = id + "_1", id + "_2"
-            y1_output_path_8k = wav8k_output_dir / (str(i) + "_" + id + "_1.wav")
-            y2_output_path_8k = wav8k_output_dir / (str(i) + "_" + id + "_2.wav")
-        elif config["dataset"] == "whamr":
-            id = str(i) + "-th_sample"
-            json_id = i
-            json_id1, json_id2 = id + "_1", id + "_2"
-            y1_output_path_8k = wav8k_output_dir / (str(i) + "_" + id + "_1.wav")
-            y2_output_path_8k = wav8k_output_dir / (str(i) + "_" + id + "_2.wav")
 
         if not args.skip_saving_wavs:
             y1_tosave = y[[0]]

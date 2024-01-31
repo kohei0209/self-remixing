@@ -1,7 +1,7 @@
 # Self-Remixing
 
 Official implementation of [Self-Remixing](https://arxiv.org/abs/2211.101946), an unsupervised sound separation framework.
-Self-Remixing not only works when fine-tuning pre-trained models but when training from scratch, as shown in [this paper](https://arxiv.org/abs/2309.00376).
+Self-Remixing not only works when fine-tuning pre-trained models but when training from scratch, as shown in [our paper](https://arxiv.org/abs/2309.00376).
 
 This repository supports several single-channel sound separation methods:
 
@@ -75,8 +75,8 @@ This repository includes the code from [ESPnet](https://github.com/espnet/espnet
 ```
 @INPROCEEDINGS{saijo23_self,
   author={Saijo, Kohei and Ogawa, Tetsuji},
-  booktitle={ICASSP 2023 - 2023 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)}, 
-  title={Self-Remixing: Unsupervised Speech Separation VIA Separation and Remixing}, 
+  booktitle={ICASSP 2023 - 2023 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)},
+  title={Self-Remixing: Unsupervised Speech Separation VIA Separation and Remixing},
   year={2023},
   pages={1-5},
   doi={10.1109/ICASSP49357.2023.10095596}
