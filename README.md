@@ -51,6 +51,20 @@ python train.py configs/smswsj/selfremixing/selfremixing_tfgridnet_cbs+cs_mrl1.y
 Note that we use Weights and Bias (wandb) for logging. One can change ```entity``` in the line 368 of ```train.py``` to his/her user name.
 
 
+# Evaluation
+When you use SMS-WSJ, evaluation can be done as follows
+```
+run_tests_wsj.sh /path/to/model_directory /path/to/smswsj
+```
+The above script first evaluates speech metrics and then do Whisper ASR evaluation.
+
+When using FUSS, evaluation can be done as 
+```
+run_tests_fuss.sh /path/to/model_directory /path/to/fuss
+```
+
+
+
 # To Do
 - Support Libri2Mix and WSJ-mix
 - Support DDP
