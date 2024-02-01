@@ -1,5 +1,7 @@
 import random
+
 import torch
+
 
 def get_start_and_end(mix_len, tgt_len, offsets, org_len, margen=4000):
     """
@@ -26,7 +28,7 @@ def get_start_and_end(mix_len, tgt_len, offsets, org_len, margen=4000):
             start = random.randint(l + margen, r - margen)
             end = start + tgt_len
             if end > mix_len:
-                start -= (end - mix_len)
+                start -= end - mix_len
                 end = mix_len
         else:
             end = random.randint(l + margen, r - margen)
@@ -42,7 +44,6 @@ def get_start_and_end(mix_len, tgt_len, offsets, org_len, margen=4000):
 
 
 def zeropad_sources(source, target_length, span):
-
     """
     source: shape: (..., n_chan, n_samples) or (..., n_samples)
         The source to be zero-padded
@@ -55,6 +56,10 @@ def zeropad_sources(source, target_length, span):
     org_shape = source.shape[:-1]
     n_samples = source.shape[-1]
 
-    zeros = torch.zeros((org_shape+(target_length-n_samples,)), dtype=source.dtype, device=source.device)
-    source = torch.cat((zeros[...,:span], source, zeros[...,span:]), dim=-1)
+    zeros = torch.zeros(
+        (org_shape + (target_length - n_samples,)),
+        dtype=source.dtype,
+        device=source.device,
+    )
+    source = torch.cat((zeros[..., :span], source, zeros[..., span:]), dim=-1)
     return source

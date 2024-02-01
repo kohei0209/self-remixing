@@ -3,6 +3,7 @@ Copied from Asteroid toolkit and modified for our use.
 
 References
     https://github.com/asteroid-team/asteroid/blob/master/asteroid/data/librimix_dataset.py
+    https://github.com/asteroid-team/asteroid/blob/master/asteroid/data/wham_dataset.py
 """
 
 
@@ -17,8 +18,6 @@ import soundfile as sf
 import torch
 from torch import hub
 from torch.utils.data import DataLoader, Dataset
-
-from .whamr_dataset import wham_noise_license
 
 MINI_URL = "https://zenodo.org/record/3871592/files/MiniLibriMix.zip?download=1"
 
@@ -311,4 +310,14 @@ librispeech_license = dict(
     license="CC BY 4.0",
     license_link="https://creativecommons.org/licenses/by/4.0/",
     non_commercial=False,
+)
+
+wham_noise_license = dict(
+    title="The WSJ0 Hipster Ambient Mixtures dataset",
+    title_link="http://wham.whisper.ai/",
+    author="Whisper.ai",
+    author_link="https://whisper.ai/",
+    license="CC BY-NC 4.0",
+    license_link="https://creativecommons.org/licenses/by-nc/4.0/",
+    non_commercial=True,
 )
