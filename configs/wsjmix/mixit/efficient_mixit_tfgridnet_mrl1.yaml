@@ -95,7 +95,7 @@ scheduler_conf:
   decay_start_epoch: 100
 
 # wandb conf
-use_wandb: true
+use_wandb: false
 wandb:
   project: selfremixing
   name: *name

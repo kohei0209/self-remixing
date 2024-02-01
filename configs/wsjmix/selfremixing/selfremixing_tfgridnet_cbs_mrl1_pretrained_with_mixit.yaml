@@ -1,4 +1,4 @@
-name: &name selfremixing_tfgridnet_cbs+cs_mrl1_from_mixit150epoch
+name: &name selfremixing_tfgridnet_cbs_mrl1_from_mixit150epoch
 
 # use mixit pretrained model
 student_init_param: ../model/wsjmix/mixit/efficient_mixit_tfgridnet_mrl1/checkpoint_epoch150/separator.pth
@@ -105,7 +105,7 @@ scheduler_conf:
   decay_start_epoch: 100
 
 # wandb conf
-use_wandb: true
+use_wandb: false
 wandb:
   project: selfremixing
   name: *name
