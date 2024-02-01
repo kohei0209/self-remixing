@@ -203,9 +203,9 @@ def train(args):
     # separator.to(device)
     # if len(args.gpu) > 1:
     #     separator = torch.nn.DataParallel(separator, device_ids=args.gpu)
+    device_ids = list(range(num_gpus))
     if teacher_separator is not None:
         teacher_separator.to(device)
-        device_ids = list(range(num_gpus))
         if num_gpus > 1:
             teacher_separator = torch.nn.DataParallel(
                 teacher_separator,

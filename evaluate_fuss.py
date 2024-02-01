@@ -40,8 +40,6 @@ def test(args):
         args.data_dir,
         args.stage,
         return_audio_id=True,
-        # preprocessing="standardization",
-        preprocessing=None,
     )
     dataloader = DataLoader(dataset, batch_size=1, shuffle=False, num_workers=8)
 
@@ -132,15 +130,13 @@ def test(args):
 
         assert torch.all(
             abs(ref).sum(dim=-1) > 0
-        ), f"{i}-th sample!!! {abs(ref.sum(dim=-1))}"
-        # ref -= ref.mean(dim=-1, keepdim=True)
+        ), f"{i}-th sample is zero {abs(ref.sum(dim=-1))}"
         mix = ref.sum(dim=-2)
         std = torch.std(mix, dim=-1, keepdim=True)
-        mean = torch.mean(mix, dim=-1, keepdim=True)
-        mix = (mix - mean) / std
+        mix = mix / std
 
         with torch.no_grad():
-            y, *_ = separator(mix)
+            y = separator(mix)
 
         m = min(y.shape[-1], ref.shape[-1])
         y, ref, mix = y[..., :m], ref[..., :m], mix[..., :m]
