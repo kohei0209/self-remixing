@@ -52,13 +52,13 @@ Note that we use Weights and Bias (wandb) for logging. One can change ```entity`
 
 
 # Evaluation
-When you use SMS-WSJ, evaluation can be done as follows
+When you use SMS-WSJ, evaluation can be done as follows.
+Speech metrics are first evaluated and then WER is evaluated using Whisper Large v2.
 ```
 run_tests_wsj.sh /path/to/model_directory /path/to/smswsj
 ```
-The above script first evaluates speech metrics and then do Whisper ASR evaluation.
 
-When using FUSS, evaluation can be done as 
+When using FUSS, evaluation can be done as
 ```
 run_tests_fuss.sh /path/to/model_directory /path/to/fuss
 ```
@@ -79,6 +79,7 @@ All of this code except for the code from ESPnet is released under [MIT License]
 This repository includes the code from [ESPnet](https://github.com/espnet/espnet) released under [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0) license and the code from [Asteroid toolkit](https://github.com/asteroid-team/asteroid) released under [MIT License](https://opensource.org/license/mit/).
 
 - ```models/conformer.py``` from ESPnet
+- ```models/tfgridnetv2.py``` from ESPnet
 - ```my_torch_utils/stft.py``` from ESPnet
 - ```losses/mixit_wrapper.py``` from Asteroid
 - ```losses/pit_wrapper.py``` from Asteroid
